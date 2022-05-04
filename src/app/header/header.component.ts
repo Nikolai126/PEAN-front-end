@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -8,30 +9,23 @@ import { AuthService } from "../services/auth.service";
 })
 export class HeaderComponent implements OnInit {
 
-  isLogin = this.auth.isAuthenticated();
-  email: string;
+  isLogin: boolean = false;
+  email: string = '';
 
   constructor(private auth: AuthService) {
-
   }
 
   ngOnInit(): void {
-    if (this.isLogin) {
-      this.auth.getUserEmail().subscribe({
-        next: value => {
-          this.email = value;
-        },
-        error: err => {
-          this.auth.error = err.error.message;
-        }
-      })
-    }
+
   }
 
+  ngDoCheck(): void {
+    this.isLogin = this.auth._isAuth$.getValue();
+    this.email = this.auth.userEmail;
+  }
 
   onLogout(): void {
     this.auth.logout();
-    location.reload();
   }
 
 }

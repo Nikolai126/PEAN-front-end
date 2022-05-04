@@ -8,10 +8,10 @@ import {authUser} from "../shared/interfaces";
 @Injectable({providedIn: "root"})
 export class AuthService {
 
-  userEmail: string;
+  userEmail: string = '';
   message: string;
   error: string | Object;
-  private _isAuth$ = new BehaviorSubject(false);
+  _isAuth$ = new BehaviorSubject(false);
 
   constructor(
     private http: HttpClient,
@@ -34,21 +34,23 @@ export class AuthService {
     return this.http.post(`${constants.baseUrl}/sign-in`, user, {withCredentials: true});
   }
 
-  isAuthenticated(): boolean {
-    // return this._isAuth$.asObservable()
-    return !!this.token
+  isAuthenticated(): any {
+    this._isAuth$.next(!!this.token);
+    return this._isAuth$.getValue();
   }
 
-  logout() {
+  logout(): void {
     this.http.get(`${constants.baseUrl}/logout`, {withCredentials: true}).subscribe({
       error: err => {
         this.error = err.error.message;
       }
     });
     this.setToken(null);
+    this.userEmail = '';
+    this.isAuthenticated();
   }
 
-  setToken(accessToken: string | null) {
+  setToken(accessToken: string | null): void {
     if (accessToken) {
       localStorage.setItem('accessToken', accessToken);
     }
@@ -57,19 +59,27 @@ export class AuthService {
     }
   }
 
-  refreshTokens() {
+  refreshTokens(): void {
     this.http.post(`${constants.baseUrl}/refresh`, {withCredentials: true}).subscribe({
       next: (value) => {
+        console.log('newRefresh:', value);
         this.setToken(value.toString());
       },
       error: err => {
         this.error = err.error.message;
       }
-    })
+    });
   }
 
-  getUserEmail(): Observable<any> {
-    return this.http.get(`${constants.baseUrl}/get-email`, {withCredentials: true});
+  getUserEmail(): void {
+    this.http.get(`${constants.baseUrl}/get-email`, {withCredentials: true}).subscribe({
+      next: value => {
+        return this.userEmail = value.toString();
+      },
+      error: err => {
+        return this.error = err.error.message;
+      }
+    })
   }
 
 }

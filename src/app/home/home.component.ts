@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           next: postData => {
             this.filterTag = true;
             this.process = false;
-            this.posts = postData;
+            this.posts = postData.reverse();
           },
           error: err => {
             this.process = false;

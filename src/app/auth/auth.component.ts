@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {authUser} from "../shared/interfaces";
 import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
-import {GoogleAuthService} from "../services/google-auth.service";
+// import {GoogleAuthService} from "../services/google-auth.service";
 
 @Component({
   selector: 'app-auth',
@@ -18,20 +18,21 @@ export class AuthComponent implements OnInit {
   submitted = false;
   success = false;
 
-  user: gapi.auth2.GoogleUser;
+  user: any;
+  // user: gapi.auth2.GoogleUser;
 
   constructor(
     private auth: AuthService,
     private router: Router,
-    private googleService: GoogleAuthService
+    // private googleService: GoogleAuthService
   ) { }
 
   ngOnInit(): void {
-    this.googleService.observable().subscribe(user => {
-      this.user = user;
-
-      console.log('user:', this.user.getBasicProfile().getFamilyName());
-    });
+    // this.googleService.observable().subscribe(user => {
+    //   this.user = user;
+    //
+    //   console.log('user:', this.user.getBasicProfile().getFamilyName());
+    // });
 
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -39,13 +40,13 @@ export class AuthComponent implements OnInit {
     })
   }
 
-  signIn() {
-    this.googleService.signIn();
-  }
-
-  signOut() {
-    this.googleService.signOut();
-  }
+  // signIn() {
+  //   this.googleService.signIn();
+  // }
+  //
+  // signOut() {
+  //   this.googleService.signOut();
+  // }
 
   onSubmit(): void {
     this.submitted = true;
@@ -65,6 +66,7 @@ export class AuthComponent implements OnInit {
         this.success = true;
         this.onReset();
         this.auth.setToken(response);
+        this.auth.getUserEmail();
         setTimeout(() => {
           this.router.navigate(['/home']);
         }, 1000);

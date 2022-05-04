@@ -17,7 +17,7 @@
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       <div class="col" *ngFor="let post of posts | searchPosts:searchStr; let idx = index">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" [routerLink]="['/home', post.id]">
           <img *ngIf="!post.image_ref; else hasImg" class="bd-placeholder-img card-img-top" width="100%" height="230px"
                src="https://images.unsplash.com/photo-1612538498456-e861df91d4d0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80">
           <ng-template #hasImg>
@@ -27,8 +27,7 @@
           <div class="card-body">
             <h6 class="card-text">{{ post.title }}</h6>
             <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">{{ post.description | slice : 0  : 70 }}...<a
-                [routerLink]="['/home', post.id]" class="a-next">Read full</a></small>
+              <small class="text-muted">{{ post.description | slice : 0  : 70 }}...</small>
             </div>
 
             <div class="post-footer">

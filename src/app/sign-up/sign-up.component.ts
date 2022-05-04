@@ -80,6 +80,7 @@ export class SignUpComponent implements OnInit {
       this.successfully = true;
       this.onReset();
       this.auth.setToken(response);
+      this.auth.getUserEmail();
       setTimeout(() => {
         this.router.navigate(['/home']);
       }, 1500);

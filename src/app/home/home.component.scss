@@ -9,6 +9,10 @@
   margin-top: 15px;
 }
 
+.shadow-sm:hover {
+  cursor: pointer;
+}
+
 .filter-tag {
   text-align: center;
   margin: 25px 0 0 0;
@@ -42,11 +46,6 @@
 
 .container {
   margin-top: 4rem;
-}
-
-.a-next {
-  text-decoration: none;
-  font-size: 12px;
 }
 
 .post-tags {

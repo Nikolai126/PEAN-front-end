@@ -30,6 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
         tap({
           next: ((value) => {
             if(value instanceof HttpResponse) {
+              this.auth.isAuthenticated();
             }
           }),
           error: (err => {
