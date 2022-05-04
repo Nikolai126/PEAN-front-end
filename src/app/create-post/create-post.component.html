@@ -1,0 +1,67 @@
+<main class="form-post" *ngIf="formPost && !process; else loading">
+  <form [formGroup]="formPost" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+    <h1 class="create-post" *ngIf="!editing; else updatePost">Create new post</h1>
+
+    <ng-template #updatePost>
+      <h1 class="create-post">Edit post</h1>
+    </ng-template>
+
+      <div class="success" *ngIf="success">{{success}}</div>
+      <div class="error" *ngIf="error">{{error}}</div>
+
+    <div class="form-outline">
+      <label class="form-label" for="form12">Title</label>
+      <input type="text" id="form12" class="form-control" formControlName="title"
+             [ngClass]="{'is-invalid': formPost.get('title').touched && formPost.get('title').invalid}"/>
+      <div *ngIf="formPost.get('title').touched && formPost.get('title').invalid" class="invalid">
+        <div *ngIf="formPost.get('title').errors.required">Title is required</div>
+        <div *ngIf="formPost.get('title').errors.minlength">Title must be at least 2 characters</div>
+        <div *ngIf="formPost.get('title').errors.maxlength">Title can be up to 200 characters</div>
+      </div>
+    </div>
+
+    <div class="form-group description">
+      <label for="description" class="form-label">Description</label>
+      <textarea type="text" class="form-control" id="description" formControlName="description"
+             [ngClass]="{'is-invalid': formPost.get('description').touched && formPost.get('description').invalid}" rows="3"></textarea>
+      <div *ngIf="formPost.get('description').touched && formPost.get('description').invalid" class="invalid">
+        <div *ngIf="formPost.get('description').errors.required">Description of post is required</div>
+        <div *ngIf="formPost.get('description').errors.minlength">Description must be at least 10 characters</div>
+      </div>
+    </div>
+
+    <label for="uploadbtn" class="uploadButton" *ngIf="!editing; else labelImage">
+      <img src="https://img.icons8.com/material-outlined/24/000000/add-image.png"/><br>
+      Upload photo (max 2 MB)<div></div></label>
+
+    <ng-template #labelImage>
+      <label for="uploadbtn" class="uploadButton">
+        <img src="https://img.icons8.com/material-outlined/24/000000/add-image.png"/><br>
+        Add new photo (max 2 MB)<div></div></label>
+    </ng-template>
+
+    <div class="post-tags" *ngIf="!editing">
+      <input type="text" formControlName="tags" maxlength="100" placeholder=" Add tags separated by commas, if it is necessary"
+             class="form-control tags" [ngClass]="{'is-invalid': formPost.get('tags').invalid}">
+      <div *ngIf="formPost.get('tags').invalid" class="invalid">
+        <div>No more than 5 tags</div>
+      </div>
+    </div>
+
+    <input style="display: none;" type="file" name="uploadIMG" (change)="onFileSelect($event)"
+           id="uploadbtn" accept="image/*, image/jpeg"
+           onchange='document.querySelector(".uploadButton div").innerHTML = Array.from(this.files).map(f => f.name).join("<br/>")'/>
+
+    <button class="btn btn--stripe" type="submit" [disabled]="formPost.invalid" *ngIf="!editing">CREATE</button>
+    <button class="btn btn--stripe" type="submit" [disabled]="formPost.invalid" *ngIf="editing">UPDATE</button>
+  </form>
+
+</main>
+
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-border" role="status"></div>
+  </div>
+</ng-template>
+
+

@@ -1,0 +1,50 @@
+<div class="album py-5" *ngIf="posts; else loading">
+  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+    <input type="search" class="form-control form-control-dark" placeholder="Search post..."
+           [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+  </form>
+
+  <div class="no-posts" *ngIf="!posts">No posts found</div>
+
+  <div class="filter-tag" *ngIf="filterTag">
+    <span class="tag-in-post" [routerLink]="['/home']">
+      <a class="tag">#{{ tag }}</a>
+      <img class="icon-delete" [src]="url + 'resources/' + 'icon-delete.png'"/>
+    </span>
+  </div>
+
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="col" *ngFor="let post of posts | searchPosts:searchStr; let idx = index">
+        <div class="card shadow-sm">
+          <img *ngIf="!post.image_ref; else hasImg" class="bd-placeholder-img card-img-top" width="100%" height="230px"
+               src="https://images.unsplash.com/photo-1612538498456-e861df91d4d0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80">
+          <ng-template #hasImg>
+            <img class="bd-placeholder-img card-img-top img-in-post" width="100%" height="230px" [src]="url + 'public/' + post.image_ref">
+          </ng-template>
+
+          <div class="card-body">
+            <h6 class="card-text">{{ post.title }}</h6>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">{{ post.description | slice : 0  : 70 }}...<a
+                [routerLink]="['/home', post.id]" class="a-next">Read full</a></small>
+            </div>
+
+            <div class="post-footer">
+              <div class="author">{{ post.firstname }} {{ post.lastname }}</div>
+              <div class="day">{{ post.date | date }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-border" role="status"></div>
+  </div>
+</ng-template>

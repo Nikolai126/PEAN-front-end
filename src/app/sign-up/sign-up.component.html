@@ -1,0 +1,118 @@
+<body class="text-center container">
+
+<img class="mb-4" src="https://img.icons8.com/ios/100/000000/add-user-male.png" alt="" width="70">
+<h1 class="h3 mb-3 fw-normal">Sign up</h1>
+
+<div class="text-center" *ngIf="submitted; else condition">
+  <div class="spinner-border" role="status"></div>
+</div>
+
+<ng-template #condition>
+  <div class="success" *ngIf="successfully">Success sign-up!</div>
+  <div class="error" *ngIf="error">{{error}}</div>
+</ng-template>
+
+<div class="register-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="label">Firstname</label>
+      <input
+        type="text"
+        formControlName="firstname"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
+      />
+      <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+        <div *ngIf="f.firstname.errors.required">Firstname is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Lastname</label>
+      <input
+        type="text"
+        formControlName="lastname"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
+      />
+      <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+        <div *ngIf="f.lastname.errors.required">Lastname is required</div>
+        <div *ngIf="f.lastname.errors.minlength">
+          Lastname must be at least 2 characters
+        </div>
+        <div *ngIf="f.lastname.errors.maxlength">
+          Lastname must not exceed 20 characters
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input
+        type="text"
+        formControlName="email"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.email.errors || error }"
+      />
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">Email is required</div>
+        <div *ngIf="f.email.errors.email">Email is invalid</div>
+      </div>
+      <div *ngIf="error" class="invalid-feedback">
+        <div *ngIf="error">{{error}}</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+      />
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+        <div *ngIf="f.password.errors.minlength">
+          Password must be at least 6 characters
+        </div>
+        <div *ngIf="f.password.errors.maxlength">
+          Username must not exceed 40 characters
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+      />
+      <div
+        *ngIf="submitted && f.confirmPassword.errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f.confirmPassword.errors.required">
+          Confirm Password is required
+        </div>
+        <div *ngIf="f.confirmPassword.errors.matching">
+          Confirm Password does not match
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="w-50 btn btn-primary sign-up">Register</button>
+    </div>
+    <a class="account-exist" [routerLink]="['/sign-in']" (click)="onReset()">Уже есть аккаунт</a>
+  </form>
+
+  <div class="login-with">
+    <p class="login-p">Login with</p>
+    <a><img src="https://img.icons8.com/plasticine/400/000000/google-logo.png" width="40px"/></a>
+  </div>
+  <a><img src="https://img.icons8.com/external-bearicons-detailed-outline-bearicons/64/000000/external-Coming-Soon-miscellany-texts-and-badges-bearicons-detailed-outline-bearicons.png" width="40px"/></a>
+
+  <p class="mt-5 mb-3 text-muted">© 2022</p>
+
+</div>
+
+</body>

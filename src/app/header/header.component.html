@@ -1,0 +1,25 @@
+<header class="p-3 text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <h1 class="glitch" data-text="BLOG">BLOG</h1>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a class="nav-link px-2 text-home" [routerLink]="['/home']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <button type="button" class="btn btn-outline-light me-2" [routerLink]="['/create-post']" *ngIf="email" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">Create post</button>
+      </ul>
+
+      <div class="text-end" *ngIf="!isLogin; else logout">
+        <button type="button" class="btn btn-success me-2" [routerLink]="['/sign-in']">Login</button>
+        <button type="button" class="btn btn-outline-light" [routerLink]="['/sign-up']">Sign-up</button>
+      </div>
+
+      <ng-template class="text-end" #logout>
+        <p class="email">{{email}}</p>
+        <button type="button" class="btn btn-outline-light me-2" (click)="onLogout()">Logout</button>
+      </ng-template>
+    </div>
+  </div>
+</header>
+

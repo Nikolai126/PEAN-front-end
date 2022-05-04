@@ -1,0 +1,47 @@
+<body class="text-center container">
+
+<main class="form-signin">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <img class="mb-4" src="https://img.icons8.com/ios/100/000000/fingerprint-accepted.png" alt="" width="70">
+    <h1 class="h3 mb-3 fw-normal auth-text">Authorization</h1>
+
+    <div class="text-center" *ngIf="submitted; else condition">
+      <div class="spinner-border" role="status"></div>
+    </div>
+
+    <ng-template #condition>
+      <div class="success" *ngIf="success">Success sign-in!</div>
+      <div class="error" *ngIf="error">{{error}}</div>
+    </ng-template>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="emailInput" formControlName="email"
+             [ngClass]="{'is-invalid': form.get('email').touched && form.get('email').invalid}">
+      <label for="emailInput">E-mail</label>
+      <div *ngIf="form.get('email').touched && form.get('email').invalid" class="invalid">
+        <div *ngIf="form.get('email').errors.required">E-mail is required</div>
+        <div *ngIf="form.get('email').errors.email">E-mail must contain '@'</div>
+      </div>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="passwordInput" formControlName="password"
+             [ngClass]="{'is-invalid': form.get('password').touched && form.get('password').invalid}">
+      <label for="passwordInput">Password</label>
+      <div *ngIf="form.get('password').touched && form.get('password').invalid" class="invalid">
+        <div *ngIf="form.get('password').errors.required">Password is required</div>
+        <div *ngIf="form.get('password').errors.minlength">Password must be at least 6 characters</div>
+      </div>
+    </div>
+
+    <button class="w-50 btn btn-lg btn-primary btn-sign-in" type="submit" [disabled]="form.invalid">Sign in</button>
+  </form>
+
+  <div class="login-with">
+    <p class="login-p">Login with</p>
+    <a *ngIf="!user" (click)="signIn()"><img src="https://img.icons8.com/plasticine/400/000000/google-logo.png" width="40px"/></a>
+  </div>
+  <a><img src="https://img.icons8.com/external-bearicons-detailed-outline-bearicons/64/000000/external-Coming-Soon-miscellany-texts-and-badges-bearicons-detailed-outline-bearicons.png" width="40px"/></a>
+
+</main>
+
+</body>
